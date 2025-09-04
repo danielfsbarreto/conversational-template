@@ -12,7 +12,7 @@ from conversational_template.models import (
 )
 
 
-@persist()
+@persist(verbose=True)
 class ConversationalFlow(Flow[FlowState]):
     @start()
     def classify_user_message(self):
@@ -43,7 +43,7 @@ class ConversationalFlow(Flow[FlowState]):
             Be mindful of the conversation classification, trying to steer it towards the appropriate topic.
             However, do not be pushy in case the customer provides a compelling reason to not pay off their debt at this point.
             Conversation classification:
-            {self.state.conversation_classification.model_dump()}
+            {self.state.conversation_classification}
 
             Additionally, make sure to be concise and to the point in your answers, but not too robotic
             or disrespectful.
@@ -59,12 +59,17 @@ class ConversationalFlow(Flow[FlowState]):
 
     @listen(increment_history)
     def return_response(self):
+        print("=============")
+        print(self.state.model_dump())
+        print("=============")
         return self.state.model_dump()
 
 
 def kickoff():
     ConversationalFlow().kickoff(
-        inputs={"user_message": Message(role="user", content="Olá!")}
+        inputs={
+            "user_message": Message(role="user", content="Olá!"),
+        }
     )
 
 
