@@ -58,7 +58,7 @@ class ConversationalFlow(Flow[FlowState]):
 
     @listen(increment_history)
     def return_response(self):
-        return self.state
+        return self.state.model_dump()
 
 
 def kickoff():
