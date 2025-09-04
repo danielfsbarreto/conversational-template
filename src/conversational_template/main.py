@@ -40,9 +40,10 @@ class ConversationalFlow(Flow[FlowState]):
             Conversation history: {self.state.history}
             Latest user message: {self.state.user_message}
 
-            Be mindful of the conversation classification (currently set to "{self.state.conversation_classification}"),
-            trying to steer it towards the appropriate topic. However, do not be pushy in case the customer provides
-            a compelling reason to not pay off their debt at this point.
+            Be mindful of the conversation classification, trying to steer it towards the appropriate topic.
+            However, do not be pushy in case the customer provides a compelling reason to not pay off their debt at this point.
+            Conversation classification:
+            {self.state.conversation_classification.model_dump()}
 
             Additionally, make sure to be concise and to the point in your answers, but not too robotic
             or disrespectful.
