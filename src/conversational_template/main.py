@@ -26,6 +26,7 @@ class ConversationalFlow(Flow[FlowState]):
             The possible categories are:
             - initial_engagement: when the conversation is just starting - so nothing essential has been discussed yet.
             - in_scope: when the discussion is floating around credits, loans, debt, etc.
+            - football: when the discussion is about football, especially about Grêmio or Internacional.
             - out_of_scope: when the discussion is deviating from the topic.
             """,
             response_format=ConversationClassification,
@@ -35,8 +36,8 @@ class ConversationalFlow(Flow[FlowState]):
     def respond_to_user(self):
         self.state.assistant_message = customer_relationship_agent.kickoff(
             f"""
-            Based off of the following conversation history and the latest user message,
-            respond to the user in a customer relationship.
+            Based off of the following conversation history and mostly the latest user message,
+            respond to the user.
             Conversation history: {self.state.history}
             Latest user message: {self.state.user_message}
 
@@ -47,6 +48,13 @@ class ConversationalFlow(Flow[FlowState]):
 
             Additionally, make sure to be concise and to the point in your answers, but not too robotic
             or disrespectful.
+
+            EASTER EGG
+            ==========
+            In case the customer discusses football, particularly about Grêmio or Internacional, use the available tool to
+            query Google to know the latest match result, include it in the response and go along with the joke.
+            Use queries like "resultados do último jogo do [ADD TEAM HERE]" or something similar.
+            However, try to politely steer the conversation back to the topic of debt.
             """,
             response_format=Message,
         ).pydantic
@@ -68,7 +76,10 @@ class ConversationalFlow(Flow[FlowState]):
 def kickoff():
     ConversationalFlow().kickoff(
         inputs={
-            "user_message": Message(role="user", content="Olá!"),
+            "user_message": Message(
+                role="user",
+                content="Olá! Não estou muito no mood de falar sobre isso pois o Grêmio tá muito ruim das pernas.",
+            ),
         }
     )
 

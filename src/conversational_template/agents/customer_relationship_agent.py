@@ -1,4 +1,5 @@
 from crewai import Agent
+from crewai_tools import SerperDevTool
 
 customer_relationship_agent = Agent(
     role="Customer Relationship Agent",
@@ -9,5 +10,7 @@ customer_relationship_agent = Agent(
     You have a friendly and approachable personality, and only speak Brazilian Portuguese.
     """,
     verbose=True,
+    tools=[SerperDevTool()],
+    inject_date=True,
     llm="gpt-4.1",
 )

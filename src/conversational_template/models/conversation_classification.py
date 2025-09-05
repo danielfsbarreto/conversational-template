@@ -4,9 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class ConversationClassification(BaseModel):
-    category: Literal["initial_engagement", "in_scope", "out_of_scope"] = Field(
-        ...,
-        description="The classification category of the conversation: 'initial_engagement' for initial engagement, 'in_scope' for relevant topics, 'out_of_scope' otherwise.",
+    category: Literal["initial_engagement", "in_scope", "football", "out_of_scope"] = (
+        Field(
+            ...,
+            description="The classification category of the conversation: 'initial_engagement' for initial engagement, 'in_scope' for relevant topics, 'football' for football, 'out_of_scope' otherwise.",
+        )
     )
     score: float = Field(
         ...,
